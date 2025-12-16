@@ -1,0 +1,68 @@
+<div class="movie-list-container">
+  <div class="filter-bar">
+    <mat-form-field appearance="fill">
+      <mat-label>Search by title</mat-label>
+      <input matInput (keyup)="applyFilters()" [(ngModel)]="searchTerm" placeholder="e.g. Inception">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Genre</mat-label>
+      <mat-select [(ngModel)]="selectedGenre" (selectionChange)="applyFilters()">
+        <mat-option value="">All Genres</mat-option>
+        <mat-option *ngFor="let genre of genres" [value]="genre">{{ genre }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Sort by</mat-label>
+      <mat-select [(ngModel)]="sortBy" (selectionChange)="applyFilters()">
+        <mat-option value="date">Date Added</mat-option>
+        <mat-option value="title">Title</mat-option>
+        <mat-option value="rating">Rating</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+   
+  <button mat-raised-button color="primary" routerLink="/movies/new">
+    <mat-icon>add</mat-icon>
+    Add Movie
+  </button>
+
+  </div>
+
+<div class="movies-grid">
+  <mat-card
+    class="movie-card"
+    *ngFor="let movie of dataSource.data"
+    [routerLink]="['/movies', movie.id]"
+  >
+    <!-- Poster -->
+    <div class="poster-wrapper">
+      <img
+        [src]="movie.posterUrl || placeholder"
+        alt="Poster of {{ movie.title }}"
+      />
+
+      <!-- Watched badge -->
+      <span class="watched-badge" *ngIf="movie.watched">
+        Watched
+      </span>
+    </div>
+
+    <!-- Content -->
+    <mat-card-content>
+      <h3 class="movie-title">{{ movie.title }}</h3>
+      <p class="movie-genre">{{ movie.genre }} • {{ movie.year }}</p>
+
+      <div class="rating">
+        <mat-icon>star</mat-icon>
+        <span>{{ movie.rating }}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of movies">
+  </mat-paginator>
+</div>

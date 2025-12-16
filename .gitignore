@@ -1,0 +1,22 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Angular
+.angular/
+dist/
+tmp/
+out-tsc/
+
+# IDE
+.idea/
+.vscode/
+*.sublime-workspace
+
+# System
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

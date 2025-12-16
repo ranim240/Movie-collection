@@ -1,0 +1,115 @@
+
+    .form-page {
+      padding: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .back-nav {
+      margin-bottom: 24px;
+    }
+
+    .form-card {
+      border-radius: 12px;
+    }
+
+    mat-card-header {
+      padding: 24px 24px 0;
+    }
+
+    mat-card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    mat-card-content {
+      padding: 24px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 40px;
+    }
+
+    .form-left {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .full-width {
+      width: 100%;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-row mat-form-field {
+      width: 100%;
+    }
+
+    .form-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .poster-preview {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: #f8f9fa;
+      border-radius: 12px;
+    }
+
+    .poster-preview img {
+      width: 200px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .preview-label {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #e9ecef;
+    }
+
+    @media (max-width: 768px) {
+      .form-page {
+        padding: 16px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-right {
+        order: -1;
+      }
+
+      .poster-preview img {
+        width: 150px;
+        height: 225px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  

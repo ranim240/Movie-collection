@@ -1,0 +1,16 @@
+<div class="movie-detail-page" *ngIf="movie; else notFound">
+  <h1>{{ movie.title }}</h1>
+  <div class="movie-info">
+    <img [src]="movie.posterUrl || 'https://via.placeholder.com/200x300'" alt="{{ movie.title }}">
+    <div class="details">
+      <p><strong>Genre:</strong> {{ movie.genre }}</p>
+      <p><strong>Year:</strong> {{ movie.year }}</p>
+      <p><strong>Rating:</strong> {{ movie.rating }}/10</p>
+      <p><strong>Description:</strong> {{ movie.description }}</p>
+    </div>
+  </div>
+</div>
+
+<ng-template #notFound>
+  <p>Movie not found.</p>
+</ng-template>
