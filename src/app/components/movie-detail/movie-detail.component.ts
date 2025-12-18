@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './movie-detail.component.html',
+  styleUrls: ['./movie-detail.component.css']
+
 })
 export class MovieDetailComponent implements OnInit {
   movie?: Movie;

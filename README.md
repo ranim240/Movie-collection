@@ -37,7 +37,7 @@ movie-collection/
 │   │   ├── app.component.ts       # Root component
 │   │   ├── app.config.ts          # Angular configuration
 │   │   └── app.routes.ts          # Route definitions
-│   ├── styles.scss                # Global styles
+│   ├── styles.css                # Global styles
 │   └── index.html                 # Main HTML file
 ├── angular.json                   # Angular CLI configuration
 └── package.json                   # NPM dependencies
