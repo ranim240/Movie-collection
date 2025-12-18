@@ -1,16 +1,48 @@
 <div class="movie-detail-page" *ngIf="movie; else notFound">
-  <h1>{{ movie.title }}</h1>
-  <div class="movie-info">
-    <img [src]="movie.posterUrl || 'https://via.placeholder.com/200x300'" alt="{{ movie.title }}">
-    <div class="details">
-      <p><strong>Genre:</strong> {{ movie.genre }}</p>
-      <p><strong>Year:</strong> {{ movie.year }}</p>
-      <p><strong>Rating:</strong> {{ movie.rating }}/10</p>
-      <p><strong>Description:</strong> {{ movie.description }}</p>
+  <mat-card class="movie-detail-card">
+    <div class="movie-detail-content">
+      
+      <!-- Poster -->
+      <div class="poster">
+        <img
+          [src]="movie.posterUrl || 'https://via.placeholder.com/300x450?text=No+Poster'"
+          [alt]="movie.title"
+        />
+      </div>
+
+      <!-- Infos -->
+      <div class="info">
+        <h1 class="title">{{ movie.title }}</h1>
+
+        <div class="meta">
+          <mat-chip color="primary" selected>{{ movie.genre }}</mat-chip>
+          <mat-chip>{{ movie.year }}</mat-chip>
+        </div>
+
+        <div class="rating">
+          ⭐ <span>{{ movie.rating }}</span>/10
+        </div>
+
+        <p class="description">
+          {{ movie.description }}
+        </p>
+
+        <div class="actions">
+          <button mat-raised-button color="primary" [routerLink]="['/movies/edit', movie.id]">
+            Edit
+          </button>
+          <button mat-stroked-button color="basic" routerLink="/movies">
+            Back
+          </button>
+        </div>
+      </div>
+
     </div>
-  </div>
+  </mat-card>
 </div>
 
 <ng-template #notFound>
-  <p>Movie not found.</p>
+  <mat-card class="not-found">
+    Movie not found.
+  </mat-card>
 </ng-template>

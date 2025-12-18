@@ -1,68 +1,118 @@
 <div class="movie-list-container">
-  <div class="filter-bar">
-    <mat-form-field appearance="fill">
-      <mat-label>Search by title</mat-label>
-      <input matInput (keyup)="applyFilters()" [(ngModel)]="searchTerm" placeholder="e.g. Inception">
-    </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Genre</mat-label>
-      <mat-select [(ngModel)]="selectedGenre" (selectionChange)="applyFilters()">
-        <mat-option value="">All Genres</mat-option>
-        <mat-option *ngFor="let genre of genres" [value]="genre">{{ genre }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Sort by</mat-label>
-      <mat-select [(ngModel)]="sortBy" (selectionChange)="applyFilters()">
-        <mat-option value="date">Date Added</mat-option>
-        <mat-option value="title">Title</mat-option>
-        <mat-option value="rating">Rating</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-   
-  <button mat-raised-button color="primary" routerLink="/movies/new">
-    <mat-icon>add</mat-icon>
-    Add Movie
-  </button>
-
-  </div>
-
-<div class="movies-grid">
-  <mat-card
-    class="movie-card"
-    *ngFor="let movie of dataSource.data"
-    [routerLink]="['/movies', movie.id]"
+  <!-- ================= HERO SECTION ================= -->
+  <section
+    class="hero"
+    *ngIf="featuredMovie"
+    [style.backgroundImage]="'url(' + featuredMovie.posterUrl + ')'"
   >
-    <!-- Poster -->
-    <div class="poster-wrapper">
-      <img
-        [src]="movie.posterUrl || placeholder"
-        alt="Poster of {{ movie.title }}"
-      />
+    <div class="hero-overlay"></div>
 
-      <!-- Watched badge -->
-      <span class="watched-badge" *ngIf="movie.watched">
-        Watched
-      </span>
+    <!-- Search (TOP RIGHT) -->
+    <div class="hero-search">
+      <input
+        type="text"
+        placeholder="Search by title..."
+        (input)="onSearch($event)"
+      />
     </div>
 
-    <!-- Content -->
-    <mat-card-content>
-      <h3 class="movie-title">{{ movie.title }}</h3>
-      <p class="movie-genre">{{ movie.genre }} • {{ movie.year }}</p>
+    <!-- Hero Content -->
+    <div class="hero-content">
+      <h1>{{ featuredMovie.title }}</h1>
 
-      <div class="rating">
-        <mat-icon>star</mat-icon>
-        <span>{{ movie.rating }}</span>
+      <div class="hero-meta">
+        <span>{{ featuredMovie.genre }}</span>
+        •
+        <span>{{ featuredMovie.year }}</span>
+        •
+        ⭐ {{ featuredMovie.rating }}
       </div>
-    </mat-card-content>
-  </mat-card>
-</div>
 
+      <p class="hero-description">
+        {{ featuredMovie.description }}
+      </p>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of movies">
-  </mat-paginator>
+      <div class="hero-actions">
+        <button class="play-btn">▶ Play</button>
+        <button class="info-btn" [routerLink]="['/movies', featuredMovie.id]">
+          More Info
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GENRES ================= -->
+  <section class="genres">
+    <button
+      class="genre-chip"
+      [class.active]="selectedGenre === ''"
+      (click)="filterByGenre('')"
+    >
+      All
+    </button>
+
+    <button
+      class="genre-chip"
+      *ngFor="let genre of genres"
+      [class.active]="selectedGenre === genre"
+      (click)="filterByGenre(genre)"
+    >
+      {{ genre }}
+    </button>
+  </section>
+
+  <!-- ================= MOVIES HEADER ================= -->
+  <div class="movies-header">
+    <h2>Movies</h2>
+
+    <select (change)="onSort($event)">
+      <option value="date">Date Added</option>
+      <option value="rating">Rating</option>
+      <option value="title">Title</option>
+    </select>
+  </div>
+
+  <!-- ================= MOVIES GRID ================= -->
+  <div class="movies-grid">
+    <mat-card
+      class="movie-card"
+      *ngFor="let movie of filteredMovies"
+
+      [routerLink]="['/movies', movie.id]"
+    >
+      <!-- Poster -->
+      <div class="poster-wrapper">
+        <img
+          [src]="movie.posterUrl || placeholder"
+          alt="Poster of {{ movie.title }}"
+        />
+
+        <span class="watched-badge" *ngIf="movie.watched">
+          Watched
+        </span>
+      </div>
+
+      <!-- Content -->
+      <mat-card-content>
+        <h3 class="movie-title">{{ movie.title }}</h3>
+        <p class="movie-genre">{{ movie.genre }} • {{ movie.year }}</p>
+
+        <div class="rating">
+          <mat-icon>star</mat-icon>
+          <span>{{ movie.rating }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- ================= FLOATING ADD BUTTON ================= -->
+  <button
+    class="add-movie-fab"
+    routerLink="/movies/new"
+    title="Add Movie"
+  >
+    ➕
+  </button>
+
 </div>

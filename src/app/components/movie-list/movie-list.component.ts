@@ -1,18 +1,14 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MovieService } from '../../services/movie.service.js';
 import { RouterModule } from '@angular/router';
-import { GENRES, Movie } from '../../models/movie.model.js';
 import { FormsModule } from '@angular/forms';
+
+import { MovieService } from '../../services/movie.service';
+import { GENRES, Movie } from '../../models/movie.model';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-movie-list',
@@ -23,62 +19,91 @@ import { MatSelectModule } from '@angular/material/select';
     FormsModule,
     MatCardModule,
     MatButtonModule,
-    MatIconModule,
-    MatChipsModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule
+    MatIconModule
   ],
   templateUrl: './movie-list.component.html',
   styleUrls: ['./movie-list.component.css']
 })
-export class MovieListComponent implements OnInit, AfterViewInit {
+export class MovieListComponent implements OnInit {
+
   movies: Movie[] = [];
-  dataSource: MatTableDataSource<Movie> = new MatTableDataSource();
+  filteredMovies: Movie[] = [];
+
+  featuredMovie?: Movie;
+
   searchTerm: string = '';
   selectedGenre: string = '';
-  genres = GENRES;
-  placeholder = 'https://via.placeholder.com/200x300?text=No+Poster';
   sortBy: string = 'date';
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  genres = GENRES;
+  placeholder = 'https://via.placeholder.com/200x300?text=No+Poster';
 
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
     this.movieService.getMovies().subscribe(movies => {
       this.movies = movies;
-      this.dataSource.data = this.movies;
+
+      // 🎬 HERO MOVIE = best rated
+      this.featuredMovie = [...movies].sort(
+        (a, b) => b.rating - a.rating
+      )[0];
+
       this.applyFilters();
     });
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+  /* ================= SEARCH ================= */
+  onSearch(event: Event): void {
+    this.searchTerm = (event.target as HTMLInputElement).value;
+    this.applyFilters();
   }
 
-  applyFilters(): void {
-    let filtered = this.movies;
+  /* ================= GENRE FILTER ================= */
+  filterByGenre(genre: string): void {
+    this.selectedGenre = genre;
+    this.applyFilters();
+  }
 
+  /* ================= SORT ================= */
+  onSort(event: Event): void {
+    this.sortBy = (event.target as HTMLSelectElement).value;
+    this.applyFilters();
+  }
+
+  /* ================= FILTER CORE ================= */
+  applyFilters(): void {
+    let result = [...this.movies];
+
+    // Search
     if (this.searchTerm) {
-      filtered = filtered.filter(m =>
-        m.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+      result = result.filter(movie =>
+        movie.title.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
 
+    // Genre
     if (this.selectedGenre) {
-      filtered = filtered.filter(m => m.genre === this.selectedGenre);
+      result = result.filter(movie =>
+        movie.genre === this.selectedGenre
+      );
     }
 
-    if (this.sortBy === 'title') {
-      filtered.sort((a, b) => a.title.localeCompare(b.title));
-    } else if (this.sortBy === 'rating') {
-      filtered.sort((a, b) => b.rating - a.rating);
-    } else {
-      filtered.sort((a, b) => +(b.id || 0) - +(a.id || 0));
+    // Sort
+    switch (this.sortBy) {
+      case 'title':
+        result.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+
+      case 'rating':
+        result.sort((a, b) => b.rating - a.rating);
+        break;
+
+      default:
+        // date added (fallback using id)
+        result.sort((a, b) => +(b.id || 0) - +(a.id || 0));
     }
 
-    this.dataSource.data = filtered;
+    this.filteredMovies = result;
   }
 }
