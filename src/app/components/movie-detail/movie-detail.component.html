@@ -15,7 +15,7 @@
         <h1 class="title">{{ movie.title }}</h1>
 
         <div class="meta">
-          <mat-chip color="primary" selected>{{ movie.genre }}</mat-chip>
+          <mat-chip selected>{{ movie.genre }}</mat-chip>
           <mat-chip>{{ movie.year }}</mat-chip>
         </div>
 
@@ -29,13 +29,13 @@
         </p>
 
         <div class="actions">
-          <button mat-raised-button color="primary" [routerLink]="['/movies', movie.id, 'edit']">
+          <button mat-raised-button [routerLink]="['/movies', movie.id, 'edit']">
             Edit
           </button>
-          <button mat-raised-button color="warn" (click)="deleteMovie()">
+          <button mat-raised-button color="warn" (click)="openDeleteDialog()">
             Delete
           </button>
-          <button mat-stroked-button color="basic" routerLink="/movies">
+          <button mat-stroked-button routerLink="/movies">
             Back
           </button>
         </div>

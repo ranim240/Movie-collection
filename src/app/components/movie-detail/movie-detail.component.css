@@ -48,12 +48,6 @@
   flex-wrap: wrap;
 }
 
-mat-chip {
-  background-color: rgba(255, 255, 255, 0.08) !important;
-  color: white !important;
-  font-weight: 600;
-}
-
 /* ================= RATING ================= */
 .rating {
   font-size: 1.3rem;
@@ -89,6 +83,7 @@ mat-chip {
 /* Back button */
 .actions button[mat-stroked-button] {
   border-color: white !important;
+  border-style: dashed;
   color: white !important;
   padding: 10px 26px;
 }

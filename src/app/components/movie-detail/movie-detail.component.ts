@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../models/movie.model';
@@ -18,14 +19,13 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
     RouterLink,
     MatCardModule,
     MatButtonModule,
-    MatChipsModule,
-    MatDialogModule
+    MatChipsModule
   ],
   templateUrl: './movie-detail.component.html',
   styleUrls: ['./movie-detail.component.css']
 })
 export class MovieDetailComponent implements OnInit {
-  movie?: Movie;
+  movie!: Movie;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,26 +35,29 @@ export class MovieDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.params['id'];
-    this.movieService.getMovie(id).subscribe(movie => {
-      this.movie = movie ?? undefined;
-    });
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (id) {
+      this.movieService.getMovie(id).subscribe(movie => {
+        if (movie) {
+          this.movie = movie;
+        }
+      });
+    }
   }
 
-  deleteMovie(): void {
-    if (!this.movie) {
-      return;
-    }
-
+  openDeleteDialog(): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: { movieTitle: this.movie.title }
+      width: '400px',
+      data: {
+        title: this.movie.title
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result && this.movie && this.movie.id) {
-        this.movieService.deleteMovie(this.movie.id).subscribe(() => {
-          this.router.navigate(['/movies']);
-        });
+      if (result && this.movie.id) {
+        this.movieService.deleteMovie(this.movie.id);
+        this.router.navigate(['/movies']);
       }
     });
   }
