@@ -20,6 +20,10 @@ import { Movie } from '../../models/movie.model';
   ],
   templateUrl: './movie-detail.component.html',
   styleUrls: ['./movie-detail.component.css']
+<<<<<<< HEAD
+=======
+
+>>>>>>> 54f14e051d3e46116fa1fe91c003f0e434d1b07d
 })
 export class MovieDetailComponent implements OnInit {
   movie?: Movie;
