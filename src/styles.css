@@ -2,7 +2,7 @@
 :root {
   --netflix-red: #e50914;
   --netflix-black: #141414;
-  --netflix-dark: #181818;
+  /* --netflix-dark: #181818; */
   --netflix-gray: #b3b3b3;
   --netflix-white: #ffffff;
 }
@@ -40,10 +40,10 @@ html, body {
 }
 
 /* Labels */
-.mat-mdc-floating-label,
+/* .mat-mdc-floating-label,
 .mat-mdc-select-value {
   color: var(--netflix-gray) !important;
-}
+} */
 
 /* Focus color */
 .mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
