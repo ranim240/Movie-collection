@@ -19,8 +19,9 @@
           <mat-chip>{{ movie.year }}</mat-chip>
         </div>
 
-        <div class="rating">
-          ⭐ <span>{{ movie.rating }}</span>/10
+        <div class="rating" role="img" [attr.aria-label]="'Rating: ' + movie.rating + ' out of 10'">
+          <span class="star-icon" aria-hidden="true">⭐</span>
+          <span>{{ movie.rating }}</span>/10
         </div>
 
         <p class="description">
@@ -28,8 +29,11 @@
         </p>
 
         <div class="actions">
-          <button mat-raised-button color="primary" [routerLink]="['/movies/edit', movie.id]">
+          <button mat-raised-button color="primary" [routerLink]="['/movies', movie.id, 'edit']">
             Edit
+          </button>
+          <button mat-raised-button color="warn" (click)="deleteMovie()">
+            Delete
           </button>
           <button mat-stroked-button color="basic" routerLink="/movies">
             Back

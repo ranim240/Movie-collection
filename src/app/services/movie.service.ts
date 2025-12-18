@@ -89,4 +89,9 @@ export class MovieService {
       this.movies[index] = { ...this.movies[index], ...movieData };
     }
   }
+
+  deleteMovie(id: string): Observable<{}> {
+    this.movies = this.movies.filter(m => m.id !== id);
+    return of({});
+  }
 }
