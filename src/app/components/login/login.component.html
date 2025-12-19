@@ -1,0 +1,41 @@
+<div class="login-page">
+
+  <!-- Background overlay -->
+  <div class="login-overlay"></div>
+
+  <!-- Login card -->
+  <div class="login-card">
+
+    <h1>Welcome Back 🎬</h1>
+    <p class="subtitle">Sign in to your movie collection</p>
+
+    <form (ngSubmit)="login()">
+
+      <input
+        type="email"
+        placeholder="Email"
+        [(ngModel)]="email"
+        name="email"
+        required
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+
+      <button type="submit">Sign In</button>
+
+      <p class="error" *ngIf="error">{{ error }}</p>
+    </form>
+
+    <p class="hint">
+      Demo account :
+      <strong>admin&#64;movie.com</strong> / 1234
+    </p>
+
+  </div>
+</div>

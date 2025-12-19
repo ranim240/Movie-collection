@@ -5,6 +5,10 @@ import { MovieListComponent } from './components/movie-list/movie-list.component
 
 export const routes: Routes = [
   {
+    path: 'login',
+    loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent)
+  },
+  {
     path: '',
     redirectTo: 'movies',
     pathMatch: 'full'
